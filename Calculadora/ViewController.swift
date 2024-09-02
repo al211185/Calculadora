@@ -17,8 +17,8 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    @IBAction func que_hace_pushar_boton(_ sender: Any) {
-        texto_a_cambiar.text = "Bienvenida cuntie"
+    @IBAction func que_hacer_al_pushar_boton(_ sender: Any) {
+        texto_a_cambiar.text = "Hola cuntie"
     }
     
 }
