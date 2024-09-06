@@ -16,6 +16,7 @@
 		FB45E9B32C860B86007BA664 /* CalculadoraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB45E9B22C860B86007BA664 /* CalculadoraTests.swift */; };
 		FB45E9BD2C860B86007BA664 /* CalculadoraUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB45E9BC2C860B86007BA664 /* CalculadoraUITests.swift */; };
 		FB45E9BF2C860B86007BA664 /* CalculadoraUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB45E9BE2C860B86007BA664 /* CalculadoraUITestsLaunchTests.swift */; };
+		FB4A0C862C8B57C900957DE6 /* InterfazBotones.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4A0C852C8B57C900957DE6 /* InterfazBotones.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		FB45E9B82C860B86007BA664 /* CalculadoraUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalculadoraUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB45E9BC2C860B86007BA664 /* CalculadoraUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculadoraUITests.swift; sourceTree = "<group>"; };
 		FB45E9BE2C860B86007BA664 /* CalculadoraUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculadoraUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		FB4A0C852C8B57C900957DE6 /* InterfazBotones.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfazBotones.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 		FB45E99A2C860B85007BA664 /* Calculadora */ = {
 			isa = PBXGroup;
 			children = (
+				FB4A0C832C8B579300957DE6 /* Modelo */,
 				FB45E99B2C860B85007BA664 /* AppDelegate.swift */,
 				FB45E99D2C860B85007BA664 /* SceneDelegate.swift */,
 				FB45E99F2C860B85007BA664 /* ViewController.swift */,
@@ -125,6 +128,22 @@
 				FB45E9BE2C860B86007BA664 /* CalculadoraUITestsLaunchTests.swift */,
 			);
 			path = CalculadoraUITests;
+			sourceTree = "<group>";
+		};
+		FB4A0C832C8B579300957DE6 /* Modelo */ = {
+			isa = PBXGroup;
+			children = (
+				FB4A0C842C8B57A700957DE6 /* Interfaz */,
+			);
+			path = Modelo;
+			sourceTree = "<group>";
+		};
+		FB4A0C842C8B57A700957DE6 /* Interfaz */ = {
+			isa = PBXGroup;
+			children = (
+				FB4A0C852C8B57C900957DE6 /* InterfazBotones.swift */,
+			);
+			path = Interfaz;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,6 +278,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB45E9A02C860B85007BA664 /* ViewController.swift in Sources */,
+				FB4A0C862C8B57C900957DE6 /* InterfazBotones.swift in Sources */,
 				FB45E99C2C860B85007BA664 /* AppDelegate.swift in Sources */,
 				FB45E99E2C860B85007BA664 /* SceneDelegate.swift in Sources */,
 			);
