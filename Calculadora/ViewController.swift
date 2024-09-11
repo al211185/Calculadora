@@ -19,8 +19,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var texto_a_cambiar: UILabel!
     @IBOutlet weak var boton_operacion: UIButton!
     
+    @IBOutlet weak var vista_stack: UIStackView!
+    
     var botones_interfaz: Dictionary<String, IUBotonCalculadora> = [:]
-    var operacion_actual: String = nil
+    var operacion_actual: String? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,14 +33,13 @@ class ViewController: UIViewController {
 
     @IBAction func que_hacer_al_pushar_boton(_ sender: UIButton) {
         if(estado_actual == estados_de_la_calculadora.seleccionar_numeros){
-            // TODO: Arreglar glitch del text quitando el optional
             let text_a_añadir = botones_interfaz[(sender.restorationIdentifier ?? boton_operacion.restorationIdentifier) ?? "boton"]?.numero
             texto_a_cambiar.text = "\(texto_a_cambiar.text ?? "")\(text_a_añadir!)"
         }
         
         else if (estado_actual == estados_de_la_calculadora.escoger_operacion){
             if let _mensajero: UIButton? = sender{
-                operacion_actual=botones_interfaz[_mensajero.restorationIdentifier ?? "buton_0"]?.operacion
+                operacion_actual=botones_interfaz[_mensajero!.restorationIdentifier ?? "buton_0"]?.operacion
             }
             else{
                 operacion_actual = nil
@@ -54,7 +55,9 @@ class ViewController: UIViewController {
     }
     
     func inicializar_calculadora()-> Void{
+        identificar_botones()
         crear_arreglo_botones()
+        
     }
     
     func crear_arreglo_botones()->Void{
@@ -68,6 +71,14 @@ class ViewController: UIViewController {
         }
         else if(estado_actual==estados_de_la_calculadora.seleccionar_numeros){
             
+        }
+    }
+    
+    func identificar_botones(){
+        for pila_de_componentes in vista_stack.subviews{
+            for boton in pila_de_componentes.subviews{
+                print(boton.restorationIdentifier)
+            }
         }
     }
         
