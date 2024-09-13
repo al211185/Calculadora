@@ -7,82 +7,192 @@
 
 import UIKit
 
-enum estados_de_la_calculadora{
-    case seleccionar_numeros
-    case escoger_operacion
-    case mostrar_resultado
-}
+
 
 class ViewController: UIViewController {
-    var estado_actual: estados_de_la_calculadora=estados_de_la_calculadora.seleccionar_numeros
     
-    @IBOutlet weak var texto_a_cambiar: UILabel!
-    @IBOutlet weak var boton_operacion: UIButton!
+    @IBOutlet weak var calculatorWorking: UILabel!
     
-    @IBOutlet weak var vista_stack: UIStackView!
+    @IBOutlet weak var calculatorResults: UILabel!
     
-    var botones_interfaz: Dictionary<String, IUBotonCalculadora> = [:]
-    var operacion_actual: String? = nil
+    var workings:String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        clearAll()
         
-        inicializar_calculadora()
-        // Do any additional setup after loading the view.
     }
+    func clearAll(){
+        workings = ""
+        calculatorWorking.text = ""
+        calculatorResults.text = ""
+    }
+    
+    @IBAction func allCleanTap(_ sender: Any) {
+        clearAll()
+    }
+    
+    @IBAction func backTap(_ sender: Any) {
+        if(workings.isEmpty){
+            workings.removeLast()
+            calculatorWorking.text = workings
+        }
+    }
+    
+    func addToWirkings(value: String){
+        workings = workings + value
+        calculatorWorking.text = workings
+    }
+    
+    @IBAction func porcentTap(_ sender: Any) {
+        addToWirkings(value: "%")
+    }
+    
+    @IBAction func divideTap(_ sender: Any) {
+        addToWirkings(value: "/")
+    }
+    
+    @IBAction func multiTap(_ sender: Any) {
+        addToWirkings(value: "*")
+    }
+    
+    @IBAction func menosTap(_ sender: Any) {
+        addToWirkings(value: "-")
+    }
+    
+    @IBAction func masTap(_ sender: Any) {
+        addToWirkings(value: "+")
+    }
+    
+    
+    @IBAction func igualTap(_ sender: Any) {
+        if(validInput()){
+            let checkedWorkingsForPorcent = workings.replacingOccurrences(of: "%", with: "*0.01")
+            let expression = NSExpression(format: checkedWorkingsForPorcent)
+            let result = expression.expressionValue(with: nil, context: nil) as! Double
+            let resultString = formatResult(result: result)
+            calculatorResults.text = resultString
+        }
+        else{
+            let alert = UIAlertController(title: "entrada invalida",
+                                          message: "No ppuedo hacer eso hermose",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Oks hermose", style: .default))
+            self.present(alert, animated: true, completion: nil)
+        }
 
-    @IBAction func que_hacer_al_pushar_boton(_ sender: UIButton) {
-        if(estado_actual == estados_de_la_calculadora.seleccionar_numeros){
-            let text_a_añadir = botones_interfaz[(sender.restorationIdentifier ?? boton_operacion.restorationIdentifier) ?? "boton"]?.numero
-            texto_a_cambiar.text = "\(texto_a_cambiar.text ?? "")\(text_a_añadir!)"
-        }
-        
-        else if (estado_actual == estados_de_la_calculadora.escoger_operacion){
-            if let _mensajero: UIButton? = sender{
-                operacion_actual=botones_interfaz[_mensajero!.restorationIdentifier ?? "buton_0"]?.operacion
-            }
-            else{
-                operacion_actual = nil
-            }
-           // operacion_actual=botones_interfaz[(sender.restorationIdentifier)]!!.operacion
-        }}
-    
-    @IBAction func boton_escoger_operacion(_ sender: UIButton) {
-        if(estado_actual==estados_de_la_calculadora.seleccionar_numeros){
-            estado_actual=estados_de_la_calculadora.escoger_operacion
-            dibujar_numeros_u_operaciones_en_interfaz()
-        }
     }
     
-    func inicializar_calculadora()-> Void{
-        identificar_botones()
-        crear_arreglo_botones()
+    func validInput() -> Bool{
+        var count = 0
+        var funCharIndexes = [Int]()
         
-    }
-    
-    func crear_arreglo_botones()->Void{
-        botones_interfaz = IUBotonCalculadora.crear_arreglo_botones()
-        
+        for char in workings{
+            if(CaracterEspecial(char: char)){
+                funCharIndexes.append(count)
+            }
+            count += 1
         }
-    
-    func dibujar_numeros_u_operaciones_en_interfaz(){
-        if(estado_actual==estados_de_la_calculadora.escoger_operacion){
+        
+        var previous: Int = -1
+        
+        
+        for index in funCharIndexes{
+            if (index == 0){
+                return false
+            }
+            if (index == workings.count - 1){
+                return false
+            }
             
-        }
-        else if(estado_actual==estados_de_la_calculadora.seleccionar_numeros){
-            
-        }
-    }
-    
-    func identificar_botones(){
-        for pila_de_componentes in vista_stack.subviews{
-            for boton in pila_de_componentes.subviews{
-                print(boton.restorationIdentifier)
+            if(previous != -1){
+                if(index - previous == 1){
+                    return false
+                }
             }
-        }
-    }
-        
+            previous = index
 
+        }
+        return true
     }
+    
+    func CaracterEspecial(char: Character) -> Bool{
+        if(char == "*"){
+            return true
+        }
+        if(char == "/"){
+            return true
+        }
+        if(char == "+"){
+            return true
+        }
+        return false
+    }
+    
+    func formatResult(result: Double) -> String{
+        if(result.truncatingRemainder(dividingBy: 1) == 0){
+            return String(format: "%.0f", result)
+        }
+        else{
+            return String(format: "%.2f", result)
+        }
+    }
+    
+    
+    @IBAction func puntoTap(_ sender: Any) {
+        addToWirkings(value: ".")
+    }
+    
+    
+    @IBAction func ceroTap(_ sender: Any) {
+        addToWirkings(value: "0")
+    }
+    
+    
+    @IBAction func unoTap(_ sender: Any) {
+        addToWirkings(value: "1")
+    }
+    
+    
+    @IBAction func dosTap(_ sender: Any) {
+        addToWirkings(value: "2")
+    }
+    
+    
+    @IBAction func tresTap(_ sender: Any) {
+        addToWirkings(value: "3")
+    }
+    
+    
+    @IBAction func cuatroTap(_ sender: Any) {
+        addToWirkings(value: "4")
+    }
+    
+    
+    @IBAction func cincoTap(_ sender: Any) {
+        addToWirkings(value: "5")
+    }
+    
+    
+    @IBAction func seisTap(_ sender: Any) {
+        addToWirkings(value: "6")
+    }
+    
+    
+    @IBAction func sieteTap(_ sender: Any) {
+        addToWirkings(value: "7")
+    }
+    
+    @IBAction func ochoTap(_ sender: Any) {
+        addToWirkings(value: "8")
+    }
+    
+    
+    @IBAction func nueveTap(_ sender: Any) {
+        addToWirkings(value: "9")
+    }
+    
+    
+}
     
 
